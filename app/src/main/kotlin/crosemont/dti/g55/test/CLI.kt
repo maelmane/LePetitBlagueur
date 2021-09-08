@@ -1,10 +1,11 @@
 package crosemont.dti.g55.test
 
 import java.util.Scanner
+import java.io.PrintStream
 
-class CLI : InterfaceUtilisateur {
+class CLI(val flot_entrée : Scanner = Scanner(System.`in`), val flot_sortie : PrintStream = System.out ) : InterfaceUtilisateur {
 	override fun questionner( énoncé : String, réponses : Array<String> ): String{
-		val scan = Scanner(System.`in`)
+		val scan = flot_entrée
 		afficher( énoncé )
 
 		var réponse = scan.nextLine()
@@ -19,6 +20,6 @@ class CLI : InterfaceUtilisateur {
 	}
 	
 	override fun afficher( message : String ){
-		println( message )
+		flot_sortie.println( message )
 	}
 }

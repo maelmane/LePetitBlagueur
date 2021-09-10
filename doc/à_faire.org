@@ -4,22 +4,25 @@ Nous voulons maintenant avoir le choix entre plusieurs blagues.
 2. Dans le constructeur de App, ajoutez quelques blagues de votre cru dans le dictionnaire de blagues. La clé doit être un titre que vous lui donnerez, la valeur est le texte de la blague.
 3. Dans `démarrer`, si l'utilisateur veut entendre une blague, proposez-lui une liste numérotée des titres de blague. Ex.:
 
-#+begin_example
+    #+begin_example
     0. Madeleine et son gigot
     1. La poule qui voulait traverser la rue
     2. Le gars qui voulait rentrer dans la police
     3. Au secours! Sortez-moi d'ici
-#+end_example
+    Entrez un numéro >
+    #+end_example
 
-(le dernier choix sert à quitter le programme, bien entendu!)
+    (le dernier choix sert à quitter le programme, bien entendu!)
+    
 4. Utilisez l'interface «InterfaceUtilisateur» pour saisir le choix de l'utilisateur puis faites afficher la blague.
 5. Faites maintenant en sorte que la liste de blagues s'affiche en ordre alphabétique de titre. Ex.:
 
-#+begin_example
+    #+begin_example
     0. La poule qui voulait traverser la rue
     1. Le gars qui voulait rentrer dans la police
     2. Madeleine et son gigot
     3. Au secours! Sortez-moi d'ici
-#+end_example
+    Entrez un numéro >
+    #+end_example
 
 S'il vous reste du temps, vous pouvez ajouter la possibilité pour l'utilisateur de créer ses propres blagues. Pour cela, vous devrez ajouter la méthode `saisirChaîne` à InterfaceUtilisateur afin de lui permettre de saisir le titre et le texte de la blague.

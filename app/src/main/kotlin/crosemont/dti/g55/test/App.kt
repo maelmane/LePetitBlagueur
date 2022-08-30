@@ -26,5 +26,5 @@ J’en ai pour cinq minutes !
 }
 
 fun main() {
-    println(App( CLI() ).démarrer())
+    App( CLI() ).démarrer()
 }

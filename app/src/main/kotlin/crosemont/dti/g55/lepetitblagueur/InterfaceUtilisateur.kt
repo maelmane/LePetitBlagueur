@@ -1,4 +1,4 @@
-package crosemont.dti.g55.test
+package crosemont.dti.g55.lepetitblagueur
 
 interface InterfaceUtilisateur{
 

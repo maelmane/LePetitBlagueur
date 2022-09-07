@@ -1,4 +1,4 @@
-package crosemont.dti.g55.test
+package crosemont.dti.g55.lepetitblagueur
 
 import java.util.Scanner
 import java.io.PrintStream

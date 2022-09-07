@@ -40,7 +40,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass.set("crosemont.dti.g55.test.AppKt")
+    mainClass.set("crosemont.dti.g55.lepetitblagueur.AppKt")
 }
 
 tasks.run.invoke {

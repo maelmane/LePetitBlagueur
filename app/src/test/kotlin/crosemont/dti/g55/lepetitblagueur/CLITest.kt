@@ -17,47 +17,63 @@ import org.junit.runner.RunWith
 @RunWith(MockitoJUnitRunner::class)
 class CLITest {
 
+		// Bouchon de l'entrée
 		@Mock
 		lateinit var scan : Scanner
-		
+
+		// Mock de sortie
 		@Mock
 		lateinit var sortie : PrintStream
 
-		@Test fun `étant donné une question objective, lorsqu'on choisit la première réponse valable, on obtient cette réponse`() {
+		@Test
+		fun `étant donné une question rouge-bleu, lorsqu'on saisit «rouge», on obtient la réponse «rouge»`() {
 
-			Mockito.`when`( scan.nextLine() ).thenReturn( "oui" )
+			// Mise en place
+			// Prévoit l'entrée à saisir
+			Mockito.`when`( scan.nextLine() ).thenReturn( "rouge" )
+			var cobaye = CLI( scan )
 
-			var cli = CLI( scan )
+			// Action
+			var réponse = cobaye.questionner("test", arrayOf<String>("rouge", "bleu"))
 
-			var réponse = cli.questionner("test", arrayOf<String>("oui", "non"))
-			assertEquals( "oui", réponse )
+			// Vérification
+			assertEquals( "rouge", réponse )
 		}
 		
-		@Test fun `étant donné une question objective, lorsqu'on choisit la seconde réponse valable, on obtient cette réponse`() {
+		@Test
+		fun `étant donné une question rouge-bleu, lorsqu'on saisit «bleu«, on obtient la réponse «bleu«`() {
 
-			Mockito.`when`( scan.nextLine() ).thenReturn( "non" )
+			Mockito.`when`( scan.nextLine() ).thenReturn( "bleu" )
 
-			var cli = CLI( scan )
+			var cobaye = CLI( scan )
 
-			var réponse = cli.questionner("test", arrayOf<String>("oui", "non"))
-			assertEquals( "non", réponse )
+			var réponse = cobaye.questionner("test", arrayOf<String>("rouge", "bleu"))
+			assertEquals( "bleu", réponse )
 		}
 
-		@Test fun `étant donné une question objective, lorsqu'on choisit une réponse non valable puis une valable, on obtient cette réponse`() {
+		@Test
+		fun `étant donné une question rouge-bleu, lorsqu'on saisit «jaune» puis «rouge», on obtient «rouge»`() {
 
-			Mockito.`when`( scan.nextLine() ).thenReturn("tata").thenReturn( "oui" )
+			Mockito.`when`( scan.nextLine() )
+			.thenReturn("jaune")
+			.thenReturn( "rouge" )
 
-			var cli = CLI( scan )
+			var cobaye = CLI( scan )
 
-			var réponse = cli.questionner("test", arrayOf<String>("oui", "non"))
-			assertEquals( "oui", réponse )
+			var réponse = cobaye.questionner("test", arrayOf<String>("rouge", "bleu"))
+			assertEquals( "rouge", réponse )
 		}
 
-		@Test fun `étant donné un message d'une ligne, lorsqu'on le fait afficher, on obtient le message suivi d'un retour de chariot`(){
+		@Test
+		fun `étant donné un message d'une ligne, lorsqu'on le fait afficher, on obtient le message suivi d'un retour de chariot`(){
 
-			var cli = CLI( scan, sortie )
+			// Mise en place
+			var cobaye = CLI( scan, sortie )
 
-			var réponse = cli.afficher("test")
+			// Action
+			cobaye.afficher("test")
+
+			// Vérification
 			Mockito.verify( sortie ).println("test")
 
 		}

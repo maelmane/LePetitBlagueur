@@ -7,7 +7,7 @@ class App(val iu: InterfaceUtilisateur){
 	fun démarrer(){
 		val réponse = iu.questionner("Voulez-vous entendre une blague?", arrayOf<String>("oui", "non", "o", "n"))
 
-		if (réponse.lowercase() == "oui" || réponse.lowercase() == "o"){
+		if (réponse == "oui"){
 			iu.afficher("""
 Madeleine interpelle son mari :
 

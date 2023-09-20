@@ -25,7 +25,21 @@ class CLI( val flot_entrée : Scanner = Scanner( System.`in` ),
 
 	fun validerRéponse( réponse: String, réponses: Array<String> ) : String? {
 		var réponse_normalisée = réponse.lowercase().trim()
-		return if ( réponse_normalisée in réponses.map( { it.lowercase().trim() } ) ) réponse_normalisée else null
+		var listeRéponsesPossibles = mutableListOf<String>()
+		for (choix in réponses){
+			if (réponse_normalisée == choix){
+				return choix
+			}
+			for (i in 1 until réponses.size){
+				if (réponse_normalisée == choix.take(i)){
+					listeRéponsesPossibles.add(choix)
+				}
+			}
+		}
+		if (listeRéponsesPossibles.size == 1){
+			return listeRéponsesPossibles.first()
+		}
+		return null
 	}
 
 	override fun afficher( message : String ) {

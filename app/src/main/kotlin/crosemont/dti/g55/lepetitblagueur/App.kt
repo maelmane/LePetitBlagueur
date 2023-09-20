@@ -5,9 +5,9 @@ package crosemont.dti.g55.lepetitblagueur
 
 class App(val iu: InterfaceUtilisateur){
 	fun démarrer(){
-		val réponse = iu.questionner("Voulez-vous entendre une blague?", arrayOf<String>("oui", "non", "ou", "n", "no"))
+		val réponse = iu.questionner("Voulez-vous entendre une blague?", arrayOf<String>("oui", "non"))
 
-		if (réponse.take(2) == "ou"){
+		if (réponse == "oui"){
 			iu.afficher("""
 Madeleine interpelle son mari :
 

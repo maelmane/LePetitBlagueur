@@ -3,21 +3,36 @@ package crosemont.dti.g55.lepetitblagueur
 import java.util.Scanner
 import java.io.PrintStream
 
-class CLI(val flot_entrée : Scanner = Scanner(System.`in`), val flot_sortie : PrintStream = System.out ) : InterfaceUtilisateur {
-	override fun questionner( énoncé : String, réponses : Array<String> ): String{
+class CLI( val flot_entrée : Scanner = Scanner( System.`in` ),
+		   val flot_sortie : PrintStream = System.out ) : InterfaceUtilisateur {
+
+	override fun questionner( énoncé : String, réponses : Array<String> ): String {
 		val scan = flot_entrée
-		afficher( énoncé )
+		var réponseValidée: String? = null
 
-		var réponse = scan.nextLine()
+		while( réponseValidée == null ) {
+			afficher( énoncé )
+			var réponse = scan.nextLine()
+			réponseValidée = validerRéponse( réponse, réponses )
 
+			if( réponseValidée == null ) {
+				afficher( "«$réponse» n'est pas une réponse comprise." )
+			}
+		}
 
+		return réponseValidée
+
+	}
+
+	fun validerRéponse( réponse: String, réponses: Array<String> ) : String? {
+		var réponse_normalisée = réponse.lowercase().trim()
 		var listeRéponsesPossibles = mutableListOf<String>()
 		for (choix in réponses){
-			if (réponse == choix){
+			if (réponse_normalisée == choix){
 				return choix
 			}
 			for (i in 1 until réponses.size){
-				if (réponse == choix.take(i)){
+				if (réponse_normalisée == choix.take(i)){
 					listeRéponsesPossibles.add(choix)
 				}
 			}
@@ -25,16 +40,10 @@ class CLI(val flot_entrée : Scanner = Scanner(System.`in`), val flot_sortie : P
 		if (listeRéponsesPossibles.size == 1){
 			return listeRéponsesPossibles.first()
 		}
-		while( !(réponse in réponses )){
-			afficher( "«$réponse» n'est pas une réponse comprise." )
-			afficher( énoncé )
-
-			réponse = scan.nextLine()
-		}
-		return ""
+		return null
 	}
-	
-	override fun afficher( message : String ){
+
+	override fun afficher( message : String ) {
 		flot_sortie.println( message )
 	}
 }

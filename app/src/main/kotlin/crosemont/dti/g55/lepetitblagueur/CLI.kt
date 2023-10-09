@@ -28,11 +28,11 @@ class CLI( val flot_entrée : Scanner = Scanner( System.`in` ),
 		var réponse_normalisée = réponse.lowercase().trim()
 		var listeRéponsesPossibles = mutableListOf<String>()
 		for (choix in réponses){
-			if (réponse_normalisée == choix){
+			if (réponse_normalisée == choix.lowercase()){
 				return choix
 			}
-			for (i in 1 until réponses.size){
-				if (réponse_normalisée == choix.take(i)){
+			for (i in 0 until réponses.size){
+				if (réponse_normalisée == choix.take(i).lowercase()){
 					listeRéponsesPossibles.add(choix)
 				}
 			}

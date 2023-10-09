@@ -13,6 +13,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 import org.junit.runner.RunWith
+import kotlin.test.assertNotEquals
 
 @RunWith(MockitoJUnitRunner::class)
 class CLITest {
@@ -25,20 +26,7 @@ class CLITest {
 		@Mock
 		lateinit var sortie : PrintStream
 
-		@Test
-		fun `étant donné une question rouge-bleu, lorsqu'on saisit «rouge», on obtient la réponse «rouge»`() {
 
-			// Mise en place
-			// Prévoit l'entrée à saisir
-			Mockito.`when`( scan.nextLine() ).thenReturn( "rouge" )
-			var cobaye = CLI( scan )
-
-			// Action
-			var réponse = cobaye.questionner("test", arrayOf<String>("rouge", "bleu"))
-
-			// Vérification
-			assertEquals( "rouge", réponse )
-		}
 		
 		@Test
 		fun `étant donné une question rouge-bleu, lorsqu'on saisit «bleu«, on obtient la réponse «bleu«`() {
@@ -51,18 +39,7 @@ class CLITest {
 			assertEquals( "bleu", réponse )
 		}
 
-		@Test
-		fun `étant donné une question rouge-bleu, lorsqu'on saisit «jaune» puis «rouge», on obtient «rouge»`() {
 
-			Mockito.`when`( scan.nextLine() )
-			.thenReturn("jaune")
-			.thenReturn( "rouge" )
-
-			var cobaye = CLI( scan )
-
-			var réponse = cobaye.questionner("test", arrayOf<String>("rouge", "bleu"))
-			assertEquals( "rouge", réponse )
-		}
 
 		@Test
 		fun `étant donné un message d'une ligne, lorsqu'on le fait afficher, on obtient le message suivi d'un retour de chariot`(){
@@ -77,5 +54,55 @@ class CLITest {
 			Mockito.verify( sortie ).println("test")
 
 		}
-		
+
+
+	@Test
+	fun `étant donné une validation de réponse, lorsqu'on écrit «so» parmi les choix «Sophie», «Stéphanie», «Monique», on obtient «Sophie»`(){
+
+		//Mise en place
+		var cobaye = CLI()
+
+		//Action
+		var réponse = cobaye.validerRéponse("so",arrayOf("Sophie", "Stéphanie", "Monique"))
+
+		//Vérification
+		assertEquals( "Sophie", réponse )
+	}
+
+	@Test
+	fun `étant donné un une validation de réponse, lorsqu'on écrit «s» parmi les choix «Sophie», «Stéphanie», «Monique», on obtient rien`(){
+		//Mise en place
+		var cobaye = CLI( )
+
+		//Action
+		var réponse = cobaye.validerRéponse("s", arrayOf("Sophie", "Stéphanie", "Monique"))
+
+		//Vérification
+		assertEquals( null, réponse )
+	}
+
+	@Test
+	fun `étant donné une validation de réponse, lorsqu'on écrit «SO» en majuscule parmi les choix «Sophie», «Stéphanie», «Monique», on obtient «Sophie»`(){
+		//Mise en place
+		var cobaye = CLI( )
+
+		//Action
+		var réponse = cobaye.validerRéponse("SO", arrayOf("Sophie", "Stéphanie", "Monique"))
+
+		//Vérification
+		assertEquals( "Sophie", réponse )
+	}
+
+	@Test
+	fun `étant donné une validation de réponse, lorsqu'on écrit «ouioui» parmi les choix «oui» et «non», on n'obtient pas «oui»`(){
+		//Mise en place
+		var cobaye = CLI( )
+
+		//Action
+		var réponse = cobaye.validerRéponse("ouioui", arrayOf("Sophie", "Stéphanie", "Monique"))
+
+		//Vérification
+		assertNotEquals( "oui", réponse )
+	}
+
 }

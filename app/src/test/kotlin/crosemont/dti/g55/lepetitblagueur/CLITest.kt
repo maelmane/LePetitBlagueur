@@ -57,52 +57,62 @@ class CLITest {
 
 
 	@Test
-	fun `étant donné une validation de réponse, lorsqu'on écrit «so» parmi les choix «Sophie», «Stéphanie», «Monique», on obtient «Sophie»`(){
+	fun `étant donné une question Stéphanie-Sophie-Monique, lorsqu'on écrit «so», on obtient «Sophie»`(){
 
 		//Mise en place
-		var cobaye = CLI()
+		Mockito.`when`( scan.nextLine() ).thenReturn( "so" )
+		var cobaye = CLI( scan )
 
 		//Action
-		var réponse = cobaye.validerRéponse("so",arrayOf("Sophie", "Stéphanie", "Monique"))
+		var réponse = cobaye.questionner("test", arrayOf("Sophie", "Stéphanie", "Monique"))
 
 		//Vérification
 		assertEquals( "Sophie", réponse )
 	}
 
 	@Test
-	fun `étant donné un une validation de réponse, lorsqu'on écrit «s» parmi les choix «Sophie», «Stéphanie», «Monique», on obtient rien`(){
+	fun `étant donné une question Stéphanie-Sophie-Monique, lorsqu'on saisit «s», on obtient le message "«s» n'est pas une réponse comprise"`(){
 		//Mise en place
-		var cobaye = CLI( )
+		Mockito.`when`( scan.nextLine() )
+			.thenReturn( "s" )
+			.thenReturn("Sophie")
+
+		var cobaye = CLI( scan, sortie )
 
 		//Action
-		var réponse = cobaye.validerRéponse("s", arrayOf("Sophie", "Stéphanie", "Monique"))
+		cobaye.questionner("test", arrayOf("Sophie", "Stéphanie", "Monique"))
 
 		//Vérification
-		assertEquals( null, réponse )
+		Mockito.verify( sortie ).println("«s» n'est pas une réponse comprise.")
 	}
 
 	@Test
-	fun `étant donné une validation de réponse, lorsqu'on écrit «SO» en majuscule parmi les choix «Sophie», «Stéphanie», «Monique», on obtient «Sophie»`(){
+	fun `étant donné une question Stéphanie-Sophie-Monique, lorsqu'on saisit «SO» en majuscule, on obtient «Sophie»`(){
 		//Mise en place
-		var cobaye = CLI( )
+		Mockito.`when`( scan.nextLine() ).thenReturn( "SO" )
+		var cobaye = CLI( scan )
 
 		//Action
-		var réponse = cobaye.validerRéponse("SO", arrayOf("Sophie", "Stéphanie", "Monique"))
+		var réponse = cobaye.questionner("test", arrayOf("Sophie", "Stéphanie", "Monique"))
 
 		//Vérification
 		assertEquals( "Sophie", réponse )
 	}
 
 	@Test
-	fun `étant donné une validation de réponse, lorsqu'on écrit «ouioui» parmi les choix «oui» et «non», on n'obtient pas «oui»`(){
-		//Mise en place
-		var cobaye = CLI( )
+	fun `étant donné une question oui-non, lorsqu'on saisit «ouioui», on obtien le message "«ouioui» n'est pas une réponse comprise"`(){
+		Mockito.`when`( scan.nextLine() )
+			.thenReturn( "ouioui" )
+			.thenReturn("o")
+
+		var cobaye = CLI( scan, sortie  )
 
 		//Action
-		var réponse = cobaye.validerRéponse("ouioui", arrayOf("Sophie", "Stéphanie", "Monique"))
+		cobaye.questionner("test", arrayOf("oui", "non"))
+
 
 		//Vérification
-		assertNotEquals( "oui", réponse )
+		Mockito.verify( sortie ).println("«ouioui» n'est pas une réponse comprise.")
 	}
 
 }

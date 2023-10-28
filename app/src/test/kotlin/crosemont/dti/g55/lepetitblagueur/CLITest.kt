@@ -26,7 +26,18 @@ class CLITest {
 		@Mock
 		lateinit var sortie : PrintStream
 
+		@Test
+		fun `étant donné une question rouge-bleu, lorsqu'on saisit «rouge», on obtient la réponse «rouge»`() {
+			// Mise en place
+			// Prévoit l'entrée à saisir
+			Mockito.`when`( scan.nextLine() ).thenReturn( "rouge" )
 
+			var cobaye = CLI( scan )
+
+			var réponse = cobaye.questionner("test", arrayOf<String>("rouge", "bleu"))
+			assertEquals( "rouge", réponse )
+
+		}
 		
 		@Test
 		fun `étant donné une question rouge-bleu, lorsqu'on saisit «bleu«, on obtient la réponse «bleu«`() {
@@ -54,65 +65,80 @@ class CLITest {
 			Mockito.verify( sortie ).println("test")
 
 		}
+		@Test
+		fun `étant donné une question rouge-bleu, lorsqu'on saisit «jaune» puis «rouge», on obtient «rouge»`() {
+
+			Mockito.`when`( scan.nextLine() )
+				.thenReturn("jaune")
+				.thenReturn( "rouge" )
+
+			var cobaye = CLI( scan )
+
+			var réponse = cobaye.questionner("test", arrayOf<String>("rouge", "bleu"))
+			assertEquals( "rouge", réponse )
+		}
 
 
-	@Test
-	fun `étant donné une question Stéphanie-Sophie-Monique, lorsqu'on écrit «so», on obtient «Sophie»`(){
 
-		//Mise en place
-		Mockito.`when`( scan.nextLine() ).thenReturn( "so" )
-		var cobaye = CLI( scan )
+		@Test
+		fun `étant donné une question Stéphanie-Sophie-Monique, lorsqu'on écrit «so», on obtient «Sophie»`(){
 
-		//Action
-		var réponse = cobaye.questionner("test", arrayOf("Sophie", "Stéphanie", "Monique"))
+			//Mise en place
+			Mockito.`when`( scan.nextLine() ).thenReturn( "so" )
+			var cobaye = CLI( scan )
 
-		//Vérification
-		assertEquals( "Sophie", réponse )
-	}
+			//Action
+			var réponse = cobaye.questionner("test", arrayOf("Sophie", "Stéphanie", "Monique"))
 
-	@Test
-	fun `étant donné une question Stéphanie-Sophie-Monique, lorsqu'on saisit «s», on obtient le message "«s» n'est pas une réponse comprise"`(){
-		//Mise en place
-		Mockito.`when`( scan.nextLine() )
-			.thenReturn( "s" )
-			.thenReturn("Sophie")
+			//Vérification
+			assertEquals( "Sophie", réponse )
+		}
 
-		var cobaye = CLI( scan, sortie )
+		@Test
+		fun `étant donné une question Stéphanie-Sophie-Monique, lorsqu'on saisit «s», on obtient le message "«s» n'est pas une réponse comprise"`(){
+			//Mise en place
+			Mockito.`when`( scan.nextLine() )
+				.thenReturn( "s" )
+				.thenReturn("Sophie")
 
-		//Action
-		cobaye.questionner("test", arrayOf("Sophie", "Stéphanie", "Monique"))
+			var cobaye = CLI( scan, sortie )
 
-		//Vérification
-		Mockito.verify( sortie ).println("«s» n'est pas une réponse comprise.")
-	}
+			//Action
+			var réponse = cobaye.questionner("test", arrayOf("Sophie", "Stéphanie", "Monique"))
 
-	@Test
-	fun `étant donné une question Stéphanie-Sophie-Monique, lorsqu'on saisit «SO» en majuscule, on obtient «Sophie»`(){
-		//Mise en place
-		Mockito.`when`( scan.nextLine() ).thenReturn( "SO" )
-		var cobaye = CLI( scan )
+			//Vérification
+			Mockito.verify( sortie ).println("«s» n'est pas une réponse comprise.")
+			assertEquals("Sophie", réponse)
+		}
 
-		//Action
-		var réponse = cobaye.questionner("test", arrayOf("Sophie", "Stéphanie", "Monique"))
+		@Test
+		fun `étant donné une question Stéphanie-Sophie-Monique, lorsqu'on saisit «SO» en majuscule, on obtient «Sophie»`(){
+			//Mise en place
+			Mockito.`when`( scan.nextLine() ).thenReturn( "SO" )
+			var cobaye = CLI( scan )
 
-		//Vérification
-		assertEquals( "Sophie", réponse )
-	}
+			//Action
+			var réponse = cobaye.questionner("test", arrayOf("Sophie", "Stéphanie", "Monique"))
 
-	@Test
-	fun `étant donné une question oui-non, lorsqu'on saisit «ouioui», on obtien le message "«ouioui» n'est pas une réponse comprise"`(){
-		Mockito.`when`( scan.nextLine() )
-			.thenReturn( "ouioui" )
-			.thenReturn("o")
+			//Vérification
+			assertEquals( "Sophie", réponse )
+		}
 
-		var cobaye = CLI( scan, sortie  )
+		@Test
+		fun `étant donné une question oui-non, lorsqu'on saisit «ouioui», on obtien le message "«ouioui» n'est pas une réponse comprise"`(){
+			Mockito.`when`( scan.nextLine() )
+				.thenReturn( "ouioui" )
+				.thenReturn("o")
 
-		//Action
-		cobaye.questionner("test", arrayOf("oui", "non"))
+			var cobaye = CLI( scan, sortie  )
+
+			//Action
+			var réponse = cobaye.questionner("test", arrayOf("oui", "non"))
 
 
-		//Vérification
-		Mockito.verify( sortie ).println("«ouioui» n'est pas une réponse comprise.")
-	}
+			//Vérification
+			Mockito.verify( sortie ).println("«ouioui» n'est pas une réponse comprise.")
+			assertEquals("oui", réponse)
+		}
 
 }
